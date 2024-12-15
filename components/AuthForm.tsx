@@ -22,11 +22,13 @@ import CustomeInput from "./CustomeInput";
 import { authformSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
 
 const AuthForm = ({ type }: { type: string }) => {
   const router =useRouter();
   const [user, setUser] = useState(null);
   const [isLoding, setIsLoding] = useState(false);
+
 
   const formSchema = authformSchema(type)
 
@@ -45,15 +47,15 @@ const AuthForm = ({ type }: { type: string }) => {
    try {
      //sign up with app write and create a plain link token
      if(type==='sign-Up'){
-        // const newUser=await signUp(data);
-        // setUser(newUser)
+        const newUser=await signUp(data);
+        setUser(newUser)
      }
      if(type==='sign-in'){
-        // const response = await signIn({
-        //     email:data.email,
-        //     password:data.password
-        // })
-        // if(response) router.push('/')
+        const response = await signIn({
+            email:data.email,
+            password:data.password
+        })
+        if(response) router.push('/')
      }
      
    } catch (error) {
